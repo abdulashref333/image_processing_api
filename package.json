@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/abdulashref333/image_processing_api#readme",
   "dependencies": {
+    "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "jasmine": "^4.0.2",
     "jasmine-spec-reporter": "^7.0.0",
