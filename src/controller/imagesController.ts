@@ -48,7 +48,6 @@ const uploadImage = async (
     const image = await fsPromise.readFile(
       publicDirectory + req.file?.filename
     );
-    // check the cach first if it not found then do sharp process.
     if (imageInfo.width === 0 || imageInfo.height === 0) {
       res.contentType("image/jpeg");
       res.send(image);
