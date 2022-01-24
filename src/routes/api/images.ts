@@ -1,5 +1,6 @@
 import express from "express";
 import imageController from "../../controller/imagesController";
+import cache from "../../utils/cach";
 import multer from "multer";
 import path from "path";
 
@@ -22,11 +23,12 @@ images.get("/", (req, res) => {
   res.send("images !");
 });
 
-images.get("/thumnail", imageController.getThumnail);
-images.post(
-  "/uploadImage",
-  upload.single("avatar"),
-  imageController.uploadImage
-);
+images
+  .get("/thumnail", cache(30), imageController.getThumnail)
+  .post(
+    "/uploadImage",
+    [cache(30), upload.single("avatar")],
+    imageController.uploadImage
+  );
 
 export default images;
