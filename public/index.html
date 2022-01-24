@@ -7,11 +7,13 @@
   </head>
   <body>
     <form
-      action="/api/images/uploadImage?width=200&&height=200"
+      action="/api/images/uploadImage"
       enctype="multipart/form-data"
       method="POST"
     >
       <input type="file" name="avatar" accept="image/*" />
+      <input type="number" name="width" placeholder="Image Width" />
+      <input type="number" name="height" placeholder="Image Height" />
       <input type="submit" value="Upload Photo" />
     </form>
   </body>
