@@ -1,10 +1,42 @@
 import { Request, Response } from "express";
 import { promises as fsPromise } from "fs";
 import path from "path";
-import sharp from "sharp";
+import sharp from "../utils/sharp";
+import valide from "../utils/validate";
 
 const publicDirectory = path.join(__dirname, "../../public/images/");
 const ThumnailDir = path.join(__dirname, "../../thumbnails/");
+
+const resizeImageOnPublic = async (
+  req: Request,
+  res: Response,
+  next: Function
+): Promise<void> => {
+  try {
+    let filename = req.query.filename as string;
+    const width = parseInt(req.query.width as string);
+    const height = parseInt(req.query.height as string);
+
+    const error = valide.validate({ filename, width, height }).error;
+    if (error.length !== 0) {
+      res.status(400).send(error);
+      return;
+    }
+
+    const image = await fsPromise.readFile(publicDirectory + filename);
+    filename = filename.split(".")[0];
+    await sharp.resize(image, filename, width, height);
+
+    const thumbnadatail = await fsPromise.readFile(
+      `${ThumnailDir + filename}_${width}.jpeg`
+    );
+    res.contentType("image/jpeg");
+    res.send(thumbnadatail);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("something broked");
+  }
+};
 
 const getThumnail = async (
   req: Request,
@@ -12,15 +44,19 @@ const getThumnail = async (
   next: Function
 ): Promise<void> => {
   try {
-    const imageInfo = {
-      width: req.query.width,
-      height: req.query.height,
-      imageName: function () {
-        return `${req.query.name}_${this.width}.jpg`;
-      },
-    };
+    let filename = req.query.filename as string;
+    const width = parseInt(req.query.width as string);
+    const height = parseInt(req.query.height as string);
+
+    const error = valide.validate({ filename, width, height }).error;
+    if (error.length !== 0) {
+      res.status(400).send(error);
+      return;
+    }
+
+    filename = filename.split(".")[0];
     const thumbnadatail = await fsPromise.readFile(
-      ThumnailDir + imageInfo.imageName()
+      `${ThumnailDir + filename}_${width}.jpeg`
     );
     res.contentType("image/jpeg");
     res.send(thumbnadatail);
@@ -36,38 +72,33 @@ const uploadImage = async (
   next: Function
 ): Promise<void> => {
   try {
-    const imageInfo = {
-      width: parseInt(req.body.width || req.query.width || "0"),
-      height: parseInt(req.body.height || req.query.height || "0"),
-      imageName: function () {
-        return `${req.file?.filename.split(".")[0]}_${this.width}.${
-          req.file?.filename.split(".")[1]
-        }`;
-      },
-    };
-    const image = await fsPromise.readFile(
-      publicDirectory + req.file?.filename
-    );
-    if (imageInfo.width === 0 || imageInfo.height === 0) {
-      res.contentType("image/jpeg");
-      res.send(image);
+    let filename = req.file?.filename as string;
+    const width = parseInt(req.body.width || "0");
+    const height = parseInt(req.body.height || "0");
+
+    const error = valide.validate({ filename, width, height }).error;
+    if (error.length !== 0) {
+      res.status(400).send(error);
       return;
     }
-    sharp(image)
-      .resize(imageInfo.width, imageInfo.height)
-      .toFile(ThumnailDir + imageInfo.imageName())
-      .then(async () => {
-        const thumbnadatail = await fsPromise.readFile(
-          ThumnailDir + imageInfo.imageName()
-        );
-        res.contentType("image/jpeg");
-        res.send(thumbnadatail);
-      });
+
+    const image = await fsPromise.readFile(publicDirectory + filename);
+    filename = filename.split(".")[0];
+    await sharp.resize(image, filename, width, height);
+
+    const thumbnadatail = await fsPromise.readFile(
+      `${ThumnailDir + filename}_${width}.jpeg`
+    );
+
+    res.contentType("image/jpeg");
+    res.send(thumbnadatail);
   } catch (error) {
     console.error(error);
+    res.status(500).send("something borken");
   }
 };
 export default {
   getThumnail,
   uploadImage,
+  resizeImageOnPublic,
 };
