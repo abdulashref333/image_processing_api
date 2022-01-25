@@ -1,25 +1,15 @@
-import supertest from "supertest";
-import app from "../index";
+import supertest from 'supertest';
+import app from '../index';
 
 // const request = supertest(app);
-describe("app", () => {
-  it("should return a successful response for GET /api/images", async () => {
-    const response = await supertest(app).get("/api/images");
-    expect(response.status).toBe(200);
-  });
-
-  it("should return a 404 response for GET /api/images/thumnail", async () => {
-    const response = await supertest(app).get("/api/images/thumnail");
+describe('app', () => {
+  it('should return a 404 response for GET /api/images/thumbnail', async () => {
+    const response = await supertest(app).get('/api/images/thumbnail');
     expect(response.status).toBe(404);
   });
 
-  it("should return a successful response for GET /api/images/thumnail?name=abdo", async () => {
-    const response = await supertest(app).get("/api/images/thumnail?name=abdo");
-    expect(response.status).toBe(200);
-  });
-
-  it("should return a successful response for GET /api/images", async () => {
-    const response = await supertest(app).get("/");
+  it('should return a 200 response for GET /api/images?filename=example.jpeg&&width=200&&height=200', async () => {
+    const response = await supertest(app).get('/api/images?filename=example.jpeg&&width=200&&height=200');
     expect(response.status).toBe(200);
   });
 });
