@@ -1,7 +1,7 @@
 const validate = (data: { filename: string; width: number; height: number }): { error: string } => {
   if (!data.width || !data.height) {
     return {
-      error: 'heigh and width should be numbers',
+      error: 'heigh and width must be numbers',
     };
   }
   if (data.width === 0 || data.height === 0 || data.filename.length === 0) {
@@ -11,7 +11,7 @@ const validate = (data: { filename: string; width: number; height: number }): { 
   }
   if (data.width < 0 || data.height < 0) {
     return {
-      error: 'image width and height should be positive',
+      error: 'image width and height must be positive',
     };
   }
   return { error: '' };

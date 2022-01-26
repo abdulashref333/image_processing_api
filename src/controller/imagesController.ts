@@ -16,7 +16,7 @@ const resizeImageOnPublic = async (req: Request, res: Response): Promise<void> =
 
     const { error } = valide.validate({ filename, width, height });
     if (error.length !== 0) {
-      res.status(400).send(error);
+      res.status(400).json({ error });
       return;
     }
 
@@ -43,7 +43,7 @@ const getThumnail = async (req: Request, res: Response): Promise<void> => {
 
     const { error } = valide.validate({ filename, width, height });
     if (error.length !== 0) {
-      res.status(400).send(error);
+      res.status(400).json({ error });
       return;
     }
 
@@ -66,7 +66,7 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 
     const { error } = valide.validate({ filename, width, height });
     if (error.length !== 0) {
-      res.status(400).send(error);
+      res.status(400).json({ error });
       return;
     }
 
