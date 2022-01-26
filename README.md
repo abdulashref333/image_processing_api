@@ -6,6 +6,15 @@ API For Image processing :
 - change the image extension
 - rotate
 
+## Technologies and tools
+* node js
+* Type Script
+* Jasmine for testing
+* [sharp](https://www.npmjs.com/package/sharp) module for doing the process on images.
+* eslint && prettier
+* for the rest of the packages please take a look on `package.json` file.
+
+
 ## Prerequisites
 
 - install [nodejs](https://nodejs.org/en/download/)
