@@ -29,7 +29,7 @@ API For Image processing :
 
 -  `docker build -t image-processing-api .`
 - `docker run --name image-processing-api-container -p 4000:3000 -d imagag-processing-api`
-- After running docker successfully you can access the api at loclalhost:4000/api  
+- After running docker successfully you can access the api at loclalhost:4000 
 - To stop the container run `docker stop image-processing-api-container`
 ## Test
 

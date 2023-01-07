@@ -1,0 +1,5 @@
+.prettierrc
+.env
+/node_modules
+Dockerfile
+Readme.md
