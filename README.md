@@ -18,12 +18,18 @@ API For Image processing :
 ## Prerequisites
 
 - install [nodejs](https://nodejs.org/en/download/)
+- install Docker (optional)
 
 ## Run
 
 - `npm install`
 - `npm start`
 
+## Run Docker  
+
+-  `docker build -t image-processing-api .`
+- `docker run --name image-processing-api-container -p 4000:3000 -d imagag-processing-api`
+- After running docker successfully you can access the api at loclalhost:4000/api
 ## Test
 
 - run `npm run test`
