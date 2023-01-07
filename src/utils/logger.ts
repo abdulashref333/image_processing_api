@@ -1,11 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
 /*
   - simple logger middleware.
 */
-const logger = (req: Request, res: Response, next: Function) => {
-  const url = req.url;
+const logger = (req: Request, res: Response, next: () => void) => {
+  const { url } = req;
+  console.log('**********************');
   console.log(`${url} was visited`);
+  console.log('**********************');
   next();
 };
 

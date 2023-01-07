@@ -1,0 +1,27 @@
+*,
+::before,
+::after{
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container{
+  max-width: 70%;
+  margin: 0 auto;
+}
+.container form{
+  width: 90%;
+  margin: 100px auto;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+ border: 1px solid black;
+ padding: 4%;
+}
+
+.container form input {
+  display: inline-block;
+  width: 50%;
+  margin: 5px auto;
+  padding: 10px 25px;
+}
